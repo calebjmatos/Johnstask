@@ -16,19 +16,19 @@ void DrawMap(char Map[MAP_WIDTH][MAP_HEIGHT]);
 
 void main()
 {
-	
-	char Maze[MAP_WIDTH][MAP_HEIGHT];
+	char MapWithPlayer[MAP_WIDTH][MAP_HEIGHT];
+	char Map[MAP_WIDTH][MAP_HEIGHT];
 	char Input;
 
 	Player Player1;
 	Player1.Name = '@';
 	
 	//Fills Maze with .
-	for(int x = 0; x <= MAP_WIDTH - 1; x++)
+	for(int y = 0; y <= MAP_WIDTH - 1; y++)
 	{
-		for (int y = 0; y <= MAP_HEIGHT - 1; y++)
+		for (int x = 0; x <= MAP_HEIGHT - 1; x++)
 		{
-			Maze[x][y] = '.';	
+			Map[y][x] = '.';	
 		}
 	}
 	
@@ -38,7 +38,7 @@ void main()
 	
 
 	//Draw initial map
-	DrawMap(Maze);
+	DrawMap(Map);
 
 	while (true)
 	{
@@ -48,45 +48,60 @@ void main()
 		switch(Input)
 		{
 			case RIGHT_ARROW:
-				Player1.Right();
+				if(Player1.x < MAP_WIDTH - 1)
+				{
+					Player1.Right();
+				}
 				break;		
 			case LEFT_ARROW:
+				if(Player1.x > 0)
+				{
+					Player1.Left();
+				}
 				break;			
 			case DOWN_ARROW:
+				if(Player1.y < MAP_HEIGHT - 1)
+				{
+					Player1.Down();
+				}
 				break;
 			case UP_ARROW:
+				if(Player1.y > 0)
+				{
+					Player1.Up();
+				}
 				break;
 		}
 		
-		//create new maze with player location
-		char MazeWithPlayer[MAP_WIDTH][MAP_HEIGHT];
+		
+
 		//copy new maze with player location into old maze
-		for(int x = 0; x <= MAP_WIDTH - 1; x++)
+		for(int y = 0; y <= MAP_WIDTH - 1; y++)
 		{
-			for (int y = 0; y <= MAP_HEIGHT - 1; y++)
+			for (int x = 0; x <= MAP_HEIGHT - 1; x++)
 			{
-				MazeWithPlayer[x][y] = Maze[x][y];
+				MapWithPlayer[y][x] = Map[y][x];
 			}
 		}
 
 		//update player location 
-		MazeWithPlayer[Player1.x][Player1.y] = Player1.Name;
+		MapWithPlayer[Player1.y][Player1.x] = Player1.Name;
 
 		//clear screen
 		system("CLS");
 
-		DrawMap(MazeWithPlayer);
+		DrawMap(MapWithPlayer);
 	}
 				
 }
 
 void DrawMap(char Map[MAP_WIDTH][MAP_HEIGHT])
 {
-	for(int x = 0; x <= MAP_WIDTH - 1; x++)
+	for(int y = 0; y <= MAP_WIDTH - 1; y++)
 	{
-		for (int y = 0; y <= MAP_HEIGHT - 1; y++)
+		for (int x = 0; x <= MAP_HEIGHT - 1; x++)
 		{
-			cout << Map[x][y];
+			cout << Map[y][x];
 		}
 		cout << endl;
 	}

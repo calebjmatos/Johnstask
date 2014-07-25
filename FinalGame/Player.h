@@ -11,5 +11,7 @@ public:
 	int x;
 	int y;
 	void Right();
-	
+	void Left();
+	void Up();
+	void Down();
 };
