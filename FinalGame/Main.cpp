@@ -16,32 +16,33 @@ void DrawMap(char Map[MAP_WIDTH][MAP_HEIGHT]);
 
 void main()
 {
+	
 	char MapWithPlayer[MAP_WIDTH][MAP_HEIGHT];
-	/*char Map[MAP_WIDTH][MAP_HEIGHT];*/
 	char Input;
-
+	char FutureLocation; //To store players next location in the Map
 	Player Player1;
 	Player1.Name = '@';
+	char Wall = '#'; //Wall that player cannot pass
 
 	char Map[MAP_WIDTH][MAP_HEIGHT] = 
 	{
-		{'_','_','_','_','_','_','_','_','_','_','_'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'|','.','.','.','.','.','.','.','.','.','|'},
-		{'_','_','_','_','_','_','_','_','_','_','_'}
+		{'#','#','#','#','#','#','#','#','#','#','#'},
+		{'#','.','.','.','.','.','.','.','.','.','#'},
+		{'#','#','#','#','.','.','.','.','.','.','#'},
+		{'#','.','.','#','.','.','.','.','.','.','#'},
+		{'#','.','.','#.','.','.','.','.','.','.','#'},
+		{'#','.','.','#','.','.','.','.','.','.','#'},
+		{'#','.','.','#','.','.','.','.','.','.','#'},
+		{'#','.','.','#','.','.','.','.','.','.','#'},
+		{'#','.','#','#','.','.','.','.','.','.','#'},
+		{'#','.','.','.','.','.','.','.','.','.','#'},
+		{'#','#','#','#','#','#','#','#','#','#','#'}
 	};
 
 	//set player to start location
-	Player1.x = 0;
-	Player1.y = 0;
-	
+	Player1.x = 1;
+	Player1.y = 1;
+	MapWithPlayer[Player1.y][Player1.x] = Player1.Name;
 
 	//Draw initial map
 	DrawMap(Map);
@@ -54,25 +55,33 @@ void main()
 		switch(Input)
 		{
 			case RIGHT_ARROW:
-				if(Player1.x < MAP_WIDTH - 1)
-				{
+				FutureLocation = MapWithPlayer[Player1.y][Player1.x + 1];
+
+				if(FutureLocation != Wall && Player1.x < MAP_WIDTH - 1)
+				{	
 					Player1.Right();
 				}
 				break;		
 			case LEFT_ARROW:
-				if(Player1.x > 0)
+				FutureLocation = MapWithPlayer[Player1.y][Player1.x - 1];
+
+				if(FutureLocation != Wall && Player1.x > 0)
 				{
 					Player1.Left();
 				}
 				break;			
 			case DOWN_ARROW:
-				if(Player1.y < MAP_HEIGHT - 1)
+				FutureLocation = MapWithPlayer[Player1.y + 1][Player1.x];
+
+				if(FutureLocation != Wall && Player1.y < MAP_HEIGHT - 1)
 				{
 					Player1.Down();
 				}
 				break;
 			case UP_ARROW:
-				if(Player1.y > 0)
+				FutureLocation = MapWithPlayer[Player1.y - 1][Player1.x];
+
+				if(FutureLocation != Wall && Player1.y > 0)
 				{
 					Player1.Up();
 				}
