@@ -10,6 +10,7 @@ public:
 	char Name;
 	int x;
 	int y;
+	char Inventory[3];
 	void Right();
 	void Left();
 	void Up();
