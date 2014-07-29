@@ -6,8 +6,9 @@
 #define MAP_HEIGHT 31
 #include <iostream>
 #include <string>
-#include <istream>
 #include <conio.h>
+#include <iomanip>
+#include <fstream>
 #include "Player.h"
 
 void DrawMap(char Map[MAP_WIDTH][MAP_HEIGHT]);
@@ -15,6 +16,9 @@ bool Collision(char FutureLocation, char Barrier);
 bool Collision(char FutureLocation, char Door[]);
 void GetKey(char FutureLocation, Player Player1, char Key[]);
 bool OpenDoor(char FutureLocation, Player Player1, char Door[], char Key[]);
+
+void GetKey(char FutureLocation, Player Player1, char Key[]);
+
 
 using namespace std;
 
@@ -33,6 +37,8 @@ void main()
 
 	Player Player1;
 	Player1.Name = '@';
+
+	
 	
 	
 //Map
@@ -53,9 +59,9 @@ void main()
 		{'#',' ','#','#','#',' ','#',' ','#',' ',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ',' ',' ',' ',' ','#',' ','#','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ','#','#','#','#','#','#','#','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ',' ',' ','#',' ',' ',' ',' ','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',Key[0],' ',' ',' ',' ',' ',' ',' ','#'},
+		{'#',' ',' ',' ','#',' ',' ',' ',' ','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ','d',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ',' ',' ','#',' ',' ','#',' ','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',Door[1],'#',' ','#',' ',' ','#',' ','#','#','#','#','#','#',Door[0],'#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+		{'#','H','#',' ','#',' ',' ','#',' ','#','#','#','#','#','#','D','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ','#',' ','#',' ',' ','#',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ','#',' ','#','#',' ','#',' ','#',' ','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ','#',' ',' ',' ',' ','#',' ',' ',' ','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -66,17 +72,23 @@ void main()
 		{'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#','#',' ','#','#','#','#',' ','#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#','#',' ','#',' ',' ','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#','#',' ',' ',' ',' ',Key[1],'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+		{'#','#',' ',' ',' ',' ','h','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
 	};
 
 	//set player to start location
 	Player1.x = 1;
 	Player1.y = 1;
+	for(int y = 0; y <= MAP_WIDTH - 1; y++)
+		{
+			for (int x = 0; x <= MAP_HEIGHT - 1; x++)
+			{
+				MapWithPlayer[y][x] = Map[y][x];
+			}
+		}
 	MapWithPlayer[Player1.y][Player1.x] = Player1.Name;
-	
 	//Draw initial map
-	DrawMap(Map);
+	DrawMap(MapWithPlayer);
 
 	while (true)
 	{
@@ -84,7 +96,7 @@ void main()
 		
 
 		//get keystroke and do thing that is supposed to be done
-//Switch Statement
+		//Switch Statement
 		switch(Input)
 		{
 			case RIGHT_ARROW:
@@ -95,16 +107,18 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
+					Map[15][22] = ' ';
+					
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					//Key[1] =' ';
+					Map[28][6] = ' ';
 				}
 				if(FutureLocation == Key[2])
 				{						
 					Player1.Inventory[2] = Key[2];
-					//Key[2] =' ';
+					Key[1] = ' ';
 				}
 				
 				//if Future location has some sort of barrier then player can not move forward
@@ -118,11 +132,7 @@ void main()
 					Player1.Right();
 				}
 				//if Futurelocation is a door and player doesnt have a key, display message.
-				if(OpenDoor(FutureLocation, Player1, Door, Key))
-				{
-					cout << "This Door is locked! You need a key!" << endl;
-					system("PAUSE>NULL");
-				}
+				
 				break;	
 
 			case LEFT_ARROW:
@@ -131,16 +141,17 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
+					Map[15][22] = ' ';
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					//Key[1] =' ';
+					Map[28][6] = ' ';
 				}
 				if(FutureLocation == Key[2])
 				{						
 					Player1.Inventory[2] = Key[2];
-					//Key[2] =' ';
+					Key[2] =' ';
 				}
 
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.x > 0)
@@ -151,11 +162,7 @@ void main()
 				{
 					Player1.Left();
 				}
-				if(OpenDoor(FutureLocation, Player1, Door, Key))
-				{
-					cout << "This Door is locked! You need a key!" << endl;
-					system("PAUSE>NULL");
-				}
+				
 				break;	
 
 			case DOWN_ARROW:
@@ -165,16 +172,17 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
+					Map[15][22] = ' ';
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					//Key[1] =' ';
+					Map[28][6] = ' ';
 				}
 				if(FutureLocation == Key[2])
 				{						
 					Player1.Inventory[2] = Key[2];
-					//Key[2] =' ';
+					Key[2] =' ';
 				}
 
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.y < MAP_HEIGHT - 1)
@@ -185,11 +193,7 @@ void main()
 				{
 					Player1.Down();
 				}
-				if(OpenDoor(FutureLocation, Player1, Door, Key))
-				{
-					cout << "This Door is locked! You need a key!" << endl;
-					system("PAUSE>NULL");
-				}
+				
 				break;
 
 			case UP_ARROW:
@@ -200,16 +204,17 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
+					Map[15][22] = ' ';
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					//Key[1] =' ';
+					Map[28][6] = ' ';
 				}
 				if(FutureLocation == Key[2])
 				{						
 					Player1.Inventory[2] = Key[2];
-					//Key[2] =' ';
+					Key[2] =' ';
 				}
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.y > 0)
 				{
@@ -218,11 +223,6 @@ void main()
 				if (OpenDoor(FutureLocation, Player1, Door, Key))
 				{
 					Player1.Up();
-				}
-				if(OpenDoor(FutureLocation, Player1, Door, Key))
-				{
-					cout << "This Door is locked! You need a key!" << endl;
-					system("PAUSE>NULL");
 				}
 				break;
 		}
@@ -244,7 +244,7 @@ void main()
 
 		//clear screen
 		system("CLS");
-
+		//redraw with players new Location
 		DrawMap(MapWithPlayer);
 	}
 }
@@ -263,7 +263,6 @@ void DrawMap(char Map[MAP_WIDTH][MAP_HEIGHT])
 	}
 	
 }
-
 bool Collision(char FutureLocation, char Barrier)
 {
 	if(FutureLocation == Barrier)
@@ -322,4 +321,3 @@ bool OpenDoor(char FutureLocation, Player Player1, char Door[], char Key[])
 		return false;
 	}
 }
-
