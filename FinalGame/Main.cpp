@@ -9,6 +9,7 @@
 #include <conio.h>
 #include <iomanip>
 #include <fstream>
+#include <vector>
 #include "Player.h"
 
 void DrawMap(char Map[MAP_WIDTH][MAP_HEIGHT]);
@@ -38,6 +39,10 @@ void main()
 	Player Player1;
 	Player1.Name = '@';
 
+	ifstream Infile;
+	
+	string Temp;
+	
 	
 	
 	
@@ -107,18 +112,18 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
-					Map[15][22] = ' ';
+					Map[Player1.y][Player1.x + 1] = ' ';
 					
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					Map[28][6] = ' ';
+					Map[Player1.y][Player1.x + 1] = ' ';
 				}
 				if(FutureLocation == Key[2])
 				{						
 					Player1.Inventory[2] = Key[2];
-					Key[1] = ' ';
+					Map[Player1.y][Player1.x + 1] = ' ';
 				}
 				
 				//if Future location has some sort of barrier then player can not move forward
@@ -141,17 +146,18 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
-					Map[15][22] = ' ';
+					Map[Player1.y][Player1.x - 1] = ' ';
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					Map[28][6] = ' ';
+					Map[Player1.y][Player1.x - 1] = ' ';		
 				}
 				if(FutureLocation == Key[2])
+
 				{						
 					Player1.Inventory[2] = Key[2];
-					Key[2] =' ';
+					Map[Player1.y][Player1.x - 1] = ' ';	
 				}
 
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.x > 0)
@@ -172,17 +178,17 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
-					Map[15][22] = ' ';
+					Map[Player1.y + 1][Player1.x] = ' ';
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					Map[28][6] = ' ';
+					Map[Player1.y + 1][Player1.x] = ' ';
 				}
 				if(FutureLocation == Key[2])
 				{						
 					Player1.Inventory[2] = Key[2];
-					Key[2] =' ';
+					Map[Player1.y + 1][Player1.x] =' ';
 				}
 
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.y < MAP_HEIGHT - 1)
@@ -204,17 +210,17 @@ void main()
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
-					Map[15][22] = ' ';
+					Map[Player1.y - 1][Player1.x] = ' ';
 				}
 				if(FutureLocation == Key[1])
 				{						
 					Player1.Inventory[1] = Key[1];
-					Map[28][6] = ' ';
+					Map[Player1.y - 1][Player1.x] = ' ';
 				}
 				if(FutureLocation == Key[2])
 				{						
 					Player1.Inventory[2] = Key[2];
-					Key[2] =' ';
+					Map[Player1.y - 1][Player1.x] =' ';
 				}
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.y > 0)
 				{
