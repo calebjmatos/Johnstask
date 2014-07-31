@@ -7,19 +7,15 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
-#include <iomanip>
 #include <fstream>
-#include <vector>
 #include "Player.h"
 
+//Function Protoypes
 void DrawMap(char Map[MAP_WIDTH][MAP_HEIGHT]);
 bool Collision(char FutureLocation, char Barrier);
 bool Collision(char FutureLocation, char Door[]);
 void GetKey(char FutureLocation, Player Player1, char Key[]);
 bool OpenDoor(char FutureLocation, Player Player1, char Door[], char Key[]);
-
-void GetKey(char FutureLocation, Player Player1, char Key[]);
-
 
 using namespace std;
 
@@ -28,23 +24,101 @@ using namespace std;
 
 void main()
 {
-	
+	/*___________________________________________________________________________________________*/
+					/*_______________Declare Variables___________________*/
 	char MapWithPlayer[MAP_WIDTH][MAP_HEIGHT];
 	char Input;
 	char FutureLocation; //To store players next location in the Map
 	char Wall = '#'; //Wall that player cannot pass
 	char Door[3]= {'D','H','T'};
 	char Key[3] = {'d', 'h', 't'};
+	ifstream inFile; //to read title screen and maps
+	char Title[6][53];
 
-	Player Player1;
+	Player Player1; //Player object
 	Player1.Name = '@';
+					/*_____________End Declare Variables_________________*/
+	/*___________________________________________________________________________________________*/
 
-	ifstream Infile;
+
+	/*___________________________________________________________________________________________*/
+								/*______Story and Splash Screen__________*/
+	/*___________________________________________________________________________________________*/
+
+	cout <<"Long ago in the Kingdom of DustMoore there lived an evil Wizard named Ragger.\n"
+			"One day Ragger released an evil plague on all of Dustmoore. \n" << endl;
 	
-	string Temp;
 	
+	cout << endl << "Press any key To continue ";
+	Input = getch();
+	system("CLS");
+
+	cout <<	"The Plague spread fast and many died. King Coffman took many precautions to \n"
+			"keep his kingdom safe, But all were in vain, and eventually the Plague reached \n" 
+			"the King. \n " << endl;
+
 	
+
+	cout << endl << "Press any key To continue ";
 	
+	Input = getch();
+	system("CLS");
+
+	cout << "But there was still hope. On a Farm in the west of DustMoore lived a farmer \n"
+			"named John. John seemed to immune to the Plague. He traveled to the \n"
+			"Kings castle and proved to the king that he was immune. \n" << endl;
+	
+
+	cout << endl << "Press any key To continue ";
+	Input = getch();
+	system("CLS");
+
+	cout << "On the kings death bed he told John of \n"
+			"an Ancient stone that could cure any disease, but was hidden deep in the \n"
+			"Labyrinths under the castle. \n" << endl;
+	
+
+	cout << endl << "Press any key To continue ";
+	Input = getch();
+	system("CLS");
+
+	cout << "No one has ever survived the mazes, but it was their only hope. \n" << endl;
+
+	cout << endl << "Press any key To continue ";
+	Input = getch();
+	system("CLS");
+
+	cout << "The King Charged John with the task of finding the Stone and saving the kingdom, \n"
+			"                        This is" << endl;
+	inFile.open("Title.txt");
+	
+	for(int y = 0; y <= 5; y++)
+	{
+		for(int x = 0; x <= 52; x++)
+		{
+			inFile >> Title[y][x];
+		}
+	}
+
+	for(int y = 0; y <= 5; y++)
+	{
+		for(int x = 0; x <= 52; x++)
+		{
+			if (char(Title[y][x]) == '.')
+				Title[y][x] = ' ';
+
+			cout << Title[y][x];
+		}
+		cout << endl;
+	}
+	inFile.close();
+	Input = getch();
+	system("CLS");
+	
+	/*___________________________________________________________________________________________*/
+							/*________End Story and Splash Screen_________*/
+	/*___________________________________________________________________________________________*/
+
 	
 //Map
 	char Map[MAP_WIDTH][MAP_HEIGHT] = 
@@ -73,7 +147,7 @@ void main()
 		{'#',' ','#','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ','#',' ',' ',' ',' ',' ','#',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+		{'#',' ','#',' ','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','D',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#','#',' ','#','#','#','#',' ','#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
 		{'#','#',' ','#',' ',' ','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
@@ -95,8 +169,15 @@ void main()
 	//Draw initial map
 	DrawMap(MapWithPlayer);
 
+	//cout << "Get keys to open doors! " << endl;
+
+
+	/*___________________________________________________________________________________________*/
+					/*________________Main Game Loop_______________________*/
+	/*___________________________________________________________________________________________*/
 	while (true)
 	{
+		
 		Input = getch();
 		
 
@@ -113,7 +194,6 @@ void main()
 				{						
 					Player1.Inventory[0] = Key[0];
 					Map[Player1.y][Player1.x + 1] = ' ';
-					
 				}
 				if(FutureLocation == Key[1])
 				{						
@@ -135,8 +215,9 @@ void main()
 				if(OpenDoor(FutureLocation, Player1, Door, Key))
 				{
 					Player1.Right();
+					Map[Player1.y][Player1.x + 1] = ' ';
 				}
-				//if Futurelocation is a door and player doesnt have a key, display message.
+				
 				
 				break;	
 
@@ -167,6 +248,7 @@ void main()
 				if(OpenDoor(FutureLocation, Player1, Door, Key))
 				{
 					Player1.Left();
+					Map[Player1.y][Player1.x - 1] = ' ';
 				}
 				
 				break;	
@@ -198,6 +280,7 @@ void main()
 				if (OpenDoor(FutureLocation, Player1, Door, Key))
 				{
 					Player1.Down();
+					Map[Player1.y + 1][Player1.x] = ' ';
 				}
 				
 				break;
@@ -229,6 +312,7 @@ void main()
 				if (OpenDoor(FutureLocation, Player1, Door, Key))
 				{
 					Player1.Up();
+					Map[Player1.y - 1][Player1.x] = ' ';
 				}
 				break;
 		}
@@ -253,7 +337,11 @@ void main()
 		//redraw with players new Location
 		DrawMap(MapWithPlayer);
 	}
-}
+	
+	/*___________________________________________________________________________________________*/
+					/*_______________End Main Game Loop_______________________*/
+	/*___________________________________________________________________________________________*/
+}//end void main
 				
 
 
