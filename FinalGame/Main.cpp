@@ -2,8 +2,8 @@
 #define LEFT_ARROW  75
 #define DOWN_ARROW  80
 #define RIGHT_ARROW 77
-#define MAP_WIDTH 31
-#define MAP_HEIGHT 31
+#define MAP_WIDTH 14
+#define MAP_HEIGHT 78
 #include <iostream>
 #include <string>
 #include <conio.h>
@@ -48,7 +48,7 @@ void main()
 	cout <<"Long ago in the Kingdom of DustMoore there lived an evil Wizard named Ragger.\n"
 			"One day Ragger released an evil plague on all of Dustmoore. \n" << endl;
 	
-	
+	//prompt user to continue
 	cout << endl << "Press any key To continue ";
 	Input = getch();
 	system("CLS");
@@ -65,8 +65,8 @@ void main()
 	system("CLS");
 
 	cout << "But there was still hope. On a Farm in the west of DustMoore lived a farmer \n"
-			"named John. John seemed to immune to the Plague. He traveled to the \n"
-			"Kings castle and proved to the king that he was immune. \n" << endl;
+			"named John. John seemed to be immune to the Plague. He traveled to the \n"
+			"Kings castle and Told the King of his immunity. \n" << endl;
 	
 
 	cout << endl << "Press any key To continue ";
@@ -76,12 +76,6 @@ void main()
 	cout << "On the kings death bed he told John of \n"
 			"an Ancient stone that could cure any disease, but was hidden deep in the \n"
 			"Labyrinths under the castle. \n" << endl;
-	
-
-	cout << endl << "Press any key To continue ";
-	Input = getch();
-	system("CLS");
-
 	cout << "No one has ever survived the mazes, but it was their only hope. \n" << endl;
 
 	cout << endl << "Press any key To continue ";
@@ -120,43 +114,29 @@ void main()
 	/*___________________________________________________________________________________________*/
 
 	
-//Map
-	char Map[MAP_WIDTH][MAP_HEIGHT] = 
+//Map, Open Map File and read into Mapp array
+	char Map[14][78];
+	inFile.open("Map.txt");
+	
+	for(int y = 0; y <= 13; y++)
 	{
-		{'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
-		{'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#','#','#','#','#','#','#',' ','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#',' ','#',' ','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#','#','#',' ','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ',' ',' ',' ',' ','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#',' ','#',' ','#','#',' ','#','#','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#','#','#',' ','#',' ','#',' ',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ',' ',' ',' ',' ','#',' ','#','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#','#','#','#','#','#','#','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ',' ',' ','#',' ',' ',' ',' ','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ','d',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ',' ',' ','#',' ',' ','#',' ','#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#','H','#',' ','#',' ',' ','#',' ','#','#','#','#','#','#','D','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#',' ',' ','#',' ','#',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#','#',' ','#',' ','#',' ','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ',' ',' ',' ','#',' ',' ',' ','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#','#','#','#','#','#','#','#','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ',' ',' ',' ',' ','#',' ','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ','#',' ','#','#','#','#','#',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','D',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#','#',' ','#','#','#','#',' ','#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#','#',' ','#',' ',' ','#','#','#','#','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#','#',' ',' ',' ',' ','h','#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
-		{'#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
-	};
+		for(int x = 0; x <= 77; x++)
+		{
+			inFile >> Map[y][x];
+		}
+	}
+	for(int y = 0; y <= 13; y++)
+	{
+		for(int x = 0; x <= 77; x++)
+		{
+			//replace '.' with spaces
+			if (char(Map[y][x]) == '.')
+				Map[y][x] = ' ';
+		}
+	}
 
 	//set player to start location
-	Player1.x = 1;
+	Player1.x = 0;
 	Player1.y = 1;
 	for(int y = 0; y <= MAP_WIDTH - 1; y++)
 		{
@@ -169,16 +149,17 @@ void main()
 	//Draw initial map
 	DrawMap(MapWithPlayer);
 
-	//cout << "Get keys to open doors! " << endl;
-
-
+	
 	/*___________________________________________________________________________________________*/
 					/*________________Main Game Loop_______________________*/
 	/*___________________________________________________________________________________________*/
+	cout << "\nNavigate the Labyrinth and collect the Keys to open the doors." << endl;
+
 	while (true)
 	{
 		
 		Input = getch();
+
 		
 
 		//get keystroke and do thing that is supposed to be done
@@ -189,7 +170,6 @@ void main()
 				FutureLocation = MapWithPlayer[Player1.y][Player1.x + 1];
 
 				//if Future location has a key, store key in inventory
-				//GetKey(FutureLocation, Player1, Key);
 				if(FutureLocation == Key[0])
 				{						
 					Player1.Inventory[0] = Key[0];
@@ -207,9 +187,9 @@ void main()
 				}
 				
 				//if Future location has some sort of barrier then player can not move forward
-				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.x < MAP_WIDTH - 1)
+				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.x < MAP_HEIGHT - 1)
 				{				
-						Player1.Right();
+					Player1.Right();
 				}
 				//if future location is a door and player has key in inventory player can move through door.
 				if(OpenDoor(FutureLocation, Player1, Door, Key))
@@ -240,6 +220,7 @@ void main()
 					Player1.Inventory[2] = Key[2];
 					Map[Player1.y][Player1.x - 1] = ' ';	
 				}
+				
 
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.x > 0)
 				{
@@ -272,7 +253,7 @@ void main()
 					Player1.Inventory[2] = Key[2];
 					Map[Player1.y + 1][Player1.x] =' ';
 				}
-
+				
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.y < MAP_HEIGHT - 1)
 				{
 					Player1.Down();
@@ -304,6 +285,11 @@ void main()
 				{						
 					Player1.Inventory[2] = Key[2];
 					Map[Player1.y - 1][Player1.x] =' ';
+				}
+				if(FutureLocation == '$')
+				{
+					break;
+				
 				}
 				if(Collision(FutureLocation, Wall) && Collision(FutureLocation, Door) && Player1.y > 0)
 				{
@@ -341,6 +327,8 @@ void main()
 	/*___________________________________________________________________________________________*/
 					/*_______________End Main Game Loop_______________________*/
 	/*___________________________________________________________________________________________*/
+	
+	
 }//end void main
 				
 
